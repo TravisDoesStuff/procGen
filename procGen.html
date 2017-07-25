@@ -1,0 +1,114 @@
+<!-- <!DOCTYPE html> -->
+<html>
+<head>
+<style>
+	html, body {
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+	canvas{
+		/*width: 100%;*/
+		/*height: 100%;*/
+	}
+	#landscape{
+		background: linear-gradient(skyblue, white);
+	}
+</style>
+</head>
+<body>
+	<canvas id="landscape" width="1000"></canvas>
+	<div>
+		<label for="intensity">Randomness</label>
+		<input type="range" min="10" max="99" id="randomness" oninput="updateSliderNum(value)" value="99"></input>
+		<output for="randomness" id="numRandomness">99</output>
+	</div>
+	<div>
+		<label for="intensity">Intensity</label>
+		<input type="range" min="1" max="500" id="intensity" oninput="updateSliderNum(value)" value="99"></input>
+		<output for="intensity" id="numIntensity">99</output>
+	</div>
+	<div>
+		<input type="button" value="Generate" onclick="procGen()"></input>
+	</div>
+</body>
+
+<script>
+	var numOfIterations = 10;
+	var randomness = document.getElementById('randomness').value;
+	var intensity = document.getElementById('intensity').value;
+	console.log(intensity);
+	const X_LENGTH = 99; //randomness
+	const Y_LENGTH = 99; //intensity
+
+	var terrain = new Array();
+
+	var chunk = new Array(X_LENGTH);
+	for(i=0; i<numOfIterations; i++){
+		chunk.fill(0);
+		addChunk();
+	}
+
+	draw();
+
+	function addChunk(){
+		var startPoint = Math.random()*Y_LENGTH;
+		if(terrain.length > 0) {
+			startPoint = terrain[terrain.length-1]
+		}
+		chunk[0] = Math.round(startPoint);
+		chunk[X_LENGTH] = Math.round(Math.random()*Y_LENGTH);
+
+		generate(0, X_LENGTH);
+		terrain = terrain.concat(chunk);
+	}
+
+	function generate(minPoint, maxPoint){
+		var middlePoint = Math.round((minPoint+maxPoint)/2);
+		var pointBetween = Math.round((chunk[minPoint]+chunk[maxPoint])/2);
+		var pointRange = Math.abs(chunk[maxPoint]-chunk[minPoint]);
+
+		if(minPoint == middlePoint) return;
+		if(maxPoint == middlePoint) return;
+
+		var deviation = Math.round(Math.random()*pointRange);
+		chunk[middlePoint] = Math.round(pointBetween + (deviation - (pointRange/2)));
+
+		generate(minPoint, middlePoint);
+		generate(middlePoint, maxPoint);
+	}
+
+	function draw(){
+		var landscape = document.getElementById('landscape');
+		var ctx = landscape.getContext("2d");
+
+		xIncrement = landscape.width / (terrain.length-1);
+		for(var x=0; x<=terrain.length; x++){
+
+			ctx.beginPath();
+			ctx.moveTo(x, terrain[x]);
+			ctx.lineTo(x, terrain[x]+2);
+			ctx.strokeStyle="forestgreen";
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.moveTo(x, terrain[x]+2);
+			ctx.lineTo(x, terrain[x]+20);
+			ctx.strokeStyle="brown";
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.moveTo(x, terrain[x]+20);
+			ctx.lineTo(x, 500);
+			ctx.strokeStyle="grey";
+			ctx.stroke();
+		}
+	}
+
+	function updateSliderNum(value){
+		document.querySelector('#numIntensity').value = value;
+	}
+</script>
+</html>
