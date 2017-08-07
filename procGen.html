@@ -1,39 +1,27 @@
 <!-- <!DOCTYPE html> -->
 <html>
 <head>
-<style>
-	html, body {
-		margin: 0;
-		padding: 0;
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-	}
-	canvas{
-		/*width: 100%;*/
-		/*height: 100%;*/
-	}
-	#skyLayer{
-		background: linear-gradient(skyblue, white);
-	}
-</style>
+	<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-	<canvas id="skyLayer" width="1000" height="200" style="position: absolute; z-index:0;"></canvas>
-	<canvas id="waterLayer" width="1000" height="200" style="position: absolute; z-index:1;"></canvas>
-	<canvas id="landscape" width="1000" height="200" style="position: absolute; z-index:2"></canvas>
-	<div>
-		<label for="intensity">Randomness</label>
-		<input type="range" min="10" max="99" id="randomness" oninput="updateSliderNum(value)" value="99"></input>
+	<canvas id="landscape" width="1000" height="200" style="position: absolute;"></canvas>
+	<div style='position: absolute; z-index: 100'>
+		<div>
+		<label for="randomness">Randomness</label>
+		<input type="range" min="10" max="99" id="randomness" oninput="updateSliderRandomness(value)" value="99"></input>
 		<output for="randomness" id="numRandomness">99</output>
-	</div>
-	<div>
+		</div>
 		<label for="intensity">Intensity</label>
-		<input type="range" min="1" max="500" id="intensity" oninput="updateSliderNum(value)" value="99"></input>
+		<input type="range" min="1" max="500" id="intensity" oninput="updateSliderIntensity(value)" value="99"></input>
 		<output for="intensity" id="numIntensity">99</output>
-	</div>
-	<div>
+		<div>
+		<label for="waterLevel">Water Level</label>
+		<input type="range" min="0" max="200" id="waterLevel" oninput="updateSliderWater(value)" value="160"></input>
+		<output for="waterLevel" id="numWater">160</output>
+		</div>
+		<div>
 		<input type="button" value="Generate" onclick="procGen()"></input>
+		</div>
 	</div>
 </body>
 
@@ -42,10 +30,10 @@
 	var randomness = document.getElementById('randomness').value;
 	var intensity = document.getElementById('intensity').value;
 
-	const X_LENGTH = 100; //randomness
+	const X_LENGTH = 200; //randomness
 	const Y_LENGTH = 200; //intensity
 
-	const WATER_LEVEL = 140;
+	const WATER_LEVEL = 100;
 
 	var terrain = new Array();
 
@@ -55,7 +43,6 @@
 		addChunk();
 	}
 
-	drawWater();
 	draw();
 
 	function addChunk(){
@@ -97,14 +84,26 @@
 				ctx.moveTo(x, terrain[x]-5);
 				ctx.lineTo(x, terrain[x]+0);
 				ctx.strokeStyle="forestgreen";
+
+				ctx.stroke();
+				ctx.beginPath();
+				ctx.moveTo(x, terrain[x]+0);
+				ctx.lineTo(x, terrain[x]+20);
+				ctx.strokeStyle="brown";
+				ctx.stroke();
+			} else {
+				ctx.beginPath();
+				ctx.moveTo(x, WATER_LEVEL);
+				ctx.lineTo(x, terrain[x]+0);
+				ctx.strokeStyle="teal";
+				ctx.stroke();
+
+				ctx.beginPath();
+				ctx.moveTo(x, terrain[x]+0);
+				ctx.lineTo(x, terrain[x]+20);
+				ctx.strokeStyle="tan";
 				ctx.stroke();
 			}
-
-			ctx.beginPath();
-			ctx.moveTo(x, terrain[x]+0);
-			ctx.lineTo(x, terrain[x]+20);
-			ctx.strokeStyle="brown";
-			ctx.stroke();
 
 			ctx.beginPath();
 			ctx.moveTo(x, terrain[x]+20);
@@ -114,18 +113,14 @@
 		}
 	}
 
-	function drawWater(){
-		var landscape = document.getElementById('landscape');
-		var ctx = landscape.getContext("2d");
-
-		ctx.beginPath();
-		ctx.fillStyle='blue';
-		ctx.fillRect(0,WATER_LEVEL,1000,200);
-		ctx.stroke();
-	}
-
-	function updateSliderNum(value){
+	function updateSliderIntensity(value){
 		document.querySelector('#numIntensity').value = value;
+	}
+	function updateSliderRandomness(value){
+		document.querySelector('#numRandomness').value = value;
+	}
+	function updateSliderWater(value){
+		document.querySelector('#numWater').value = value;
 	}
 </script>
 </html>
