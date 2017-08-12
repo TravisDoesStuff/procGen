@@ -29,11 +29,10 @@
 	var numOfIterations = 10;
 	var randomness = document.getElementById('randomness').value;
 	var intensity = document.getElementById('intensity').value;
+	var waterLevel = 100;
 
 	const X_LENGTH = 200; //randomness
 	const Y_LENGTH = 200; //intensity
-
-	const WATER_LEVEL = 100;
 
 	var terrain = new Array();
 
@@ -79,7 +78,7 @@
 		xIncrement = landscape.width / (terrain.length-1);
 		for(var x=0; x<=terrain.length; x++){
 
-			if(terrain[x] < WATER_LEVEL){
+			if(terrain[x] < waterLevel){
 				ctx.beginPath();
 				ctx.moveTo(x, terrain[x]-5);
 				ctx.lineTo(x, terrain[x]+0);
@@ -93,7 +92,7 @@
 				ctx.stroke();
 			} else {
 				ctx.beginPath();
-				ctx.moveTo(x, WATER_LEVEL);
+				ctx.moveTo(x, waterLevel);
 				ctx.lineTo(x, terrain[x]+0);
 				ctx.strokeStyle="teal";
 				ctx.stroke();
