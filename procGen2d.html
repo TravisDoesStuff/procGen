@@ -2,12 +2,12 @@
 <head>
 </head>
 <body>
-  <canvas id="map" width="100" height="100" style="position: absolute;"></canvas>
+  <canvas id="map" width="500" height="500" style="position: absolute;"></canvas>
 </body>
 </html>
 
 <script>
-const DIMENSIONS = 99;
+const DIMENSIONS = 500;
 
 var cood = [];
 for(var i=0; i<DIMENSIONS; i++){
@@ -49,11 +49,19 @@ function generate(minX,maxX,minY,maxY){
 	cood[midX][midY] = Math.round(zAvg + (deviation - (zRange/2)));
 
 	// Diamond
-	cood[midX][minY] = diamond(cood[minX][minY], cood[maxX][minY], cood[midX][midY]); //north
-	cood[maxX][midY] = diamond(cood[maxX][minY], cood[maxX][maxY], cood[midX][midY]); //east
-	cood[midX][maxY] = diamond(cood[maxX][maxY], cood[minX][maxY], cood[midX][midY]); //south
-	cood[minX][midY] = diamond(cood[minX][maxY], cood[minX][minY], cood[midX][midY]); //west
-	
+	if(cood[midX][minY]==0){
+		cood[midX][minY] = diamond(cood[minX][minY], cood[maxX][minY], cood[midX][midY]); //north
+	}
+	if(cood[maxX][midY]==0){
+		cood[maxX][midY] = diamond(cood[maxX][minY], cood[maxX][maxY], cood[midX][midY]); //east
+	}
+	if(cood[midX][maxY]==0){
+		cood[midX][maxY] = diamond(cood[maxX][maxY], cood[minX][maxY], cood[midX][midY]); //south
+	}
+	if(cood[minX][midY]==0){
+		cood[minX][midY] = diamond(cood[minX][maxY], cood[minX][minY], cood[midX][midY]); //west
+	}
+
 	generate(minX,midX,minY,midY);
 	generate(midX,maxX,minY,midY);
 	generate(minX,midX,midY,maxY);
@@ -79,11 +87,15 @@ function draw(){
   for(var x=0; x<cood.length; x++){
     for(var y=0; y<cood.length; y++){
       var height = cood[x][y];
-	  var color = 'rgb('+height+','+height+','+height+')';
+	  var color = "rgb("+height+","+height+","+height+")";
+	  if(height <= 100){
+		color="teal";
+	  }
+	  
       if(cood[x][y] != 0){
         ctx.beginPath();
-        ctx.fillStyle=color;
         ctx.fillRect(x,y,1,1);
+		ctx.fillStyle=color;
         ctx.stroke();
       }
     }
