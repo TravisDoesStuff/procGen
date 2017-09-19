@@ -101,24 +101,21 @@ function draw(){
     for(var y=0; y<cood.length; y++){
       var height = cood[x][y];
 
-	  var color = "rgb("+height+","+height+","+height+")";
-	  if(height <= 100) {
-		color= "rgb(0,"+(height)+","+(height)+")";
-	  }
-	  if(height > 100 && height <= 110) {
-		color = "rgb("+(height*2)+","+(height*2)+","+(height)+")";
-	  }
-	  if(height > 110 && height <= 180) {
-		color = "rgb("+(height/2)+","+height+","+(height/2)+")";
-	  }
-	  if(height > 180 && height <= 220) {
-		color = "rgb("+(height/2)+","+(height/2)+","+(height/2)+")";
-	  }
+  	  var color = "rgb("+height+","+height+","+height+")";
+  	  if(height <= 100) {
+  		  color= "rgb(0,"+(height)+","+(height)+")";
+  	  } else if(height > 100 && height <= 110) {
+  		  color = "rgb("+(height*2)+","+(height*2)+","+(height)+")";
+      } else if(height > 110 && height <= 180) {
+        color = "rgb("+(height/2)+","+height+","+(height/2)+")";
+  	  } else if(height > 180 && height <= 220) {
+        color = "rgb("+(height/2)+","+(height/2)+","+(height/2)+")";
+  	  }
 
       if(cood[x][y] != 0){
         ctx.beginPath();
         ctx.fillRect(x,y,1,1);
-		ctx.fillStyle=color;
+        ctx.fillStyle=color;
         ctx.stroke();
       }
     }
