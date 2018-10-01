@@ -1,7 +1,5 @@
 # Procedurally Generated Terrain
 
-## procGen
-Midpoint Displacement algorithm.
+Utilizes Midpoint Displacement algorithm to randomly generate 2D terrain often seen in video games.
 
-## procGen_2D
-Square-Diamond algorithm.
+![preview](preview.png)
