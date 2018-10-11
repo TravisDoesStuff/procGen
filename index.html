@@ -4,27 +4,29 @@
 	<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-	<canvas id="landscape" width="1000" height="200"></canvas>
+	<canvas id="sky" width="1000" height="500"></canvas>
+	<canvas id="water" width="1000" height="500"></canvas>
+	<canvas id="landscape" width="1000" height="500"></canvas>
 
-	<div>
-		<div>
+	<div id="controls">
+		<div class="control">
 			<label for="variation">Variation</label>
-			<input type="range" min="1" max="50" id="variation" oninput="updateSliderVariation(value)" value="20"></input>
-			<output for="variation" id="numVariation">10</output>
+			<input type="range" min="1" max="20" id="variation" oninput="updateSliderVariation(value)" value="5" />
+			<output for="variation" id="numVariation">5</output>
 		</div>
+		<div class="control">
 			<label for="intensity">Intensity</label>
-			<input type="range" min="1" max="200" id="intensity" oninput="updateSliderIntensity(value)" value="100"></input>
-			<output for="intensity" id="numIntensity">100</output>
-		<div>
+			<input type="range" min="1" max="500" id="intensity" oninput="updateSliderIntensity(value)" value="250" />
+			<output for="intensity" id="numIntensity">250</output>
+		</div>
+		<div class="control">
 			<label for="waterLevel">Water Level</label>
-			<input type="range" min="0" max="200" id="waterLevel" oninput="updateSliderWater(value)" value="120"></input>
-			<output for="waterLevel" id="numWater">120</output>
+			<input type="range" min="0" max="500" id="waterLevel" oninput="updateSliderWater(value)" value="200" />
+			<output for="waterLevel" id="numWater">200</output>
 		</div>
-		<div>
-			<input type="button" value="Generate" onclick="procGen()"></input>
-		</div>
+		
+		<input type="button" id="generateButton" value="Generate" onclick="procGen()" />
 	</div>
-	
 </body>
 <script src='generator.js'></script>
 </html>
