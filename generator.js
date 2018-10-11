@@ -68,8 +68,8 @@ function draw(){
     waterCtx.clearRect(0,0,landscape.width, landscape.height);
 
     let waterDepth = waterCtx.createLinearGradient(0,waterLevel,0,waterLevel+200);
-    waterDepth.addColorStop(0, "teal");
-    waterDepth.addColorStop(1, "black");
+    waterDepth.addColorStop(0, "#005F7F");
+    waterDepth.addColorStop(1, "#00161E");
     waterCtx.fillStyle = waterDepth;
     waterCtx.fillRect(0, waterLevel, canvasWidth, canvasHeight);
 
